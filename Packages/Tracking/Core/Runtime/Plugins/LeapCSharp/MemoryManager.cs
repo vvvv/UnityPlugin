@@ -6,7 +6,6 @@
  * between Ultraleap and you, your company or other organization.             *
  ******************************************************************************/
 
-using AOT;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -50,7 +49,7 @@ namespace LeapInternal
         private static ConcurrentDictionary<PoolKey, ConcurrentQueue<object>> _pooledMemory =
           new ConcurrentDictionary<PoolKey, ConcurrentQueue<object>>();
 
-        [MonoPInvokeCallback(typeof(Allocate))]
+        //[MonoPInvokeCallback(typeof(Allocate))]
         public static IntPtr Pin(UInt32 size, eLeapAllocatorType typeHint, IntPtr state)
         {
             try
@@ -108,13 +107,13 @@ namespace LeapInternal
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogException(e);
+                System.Diagnostics.Trace.WriteLine(e);
             }
 
             return IntPtr.Zero;
         }
 
-        [MonoPInvokeCallback(typeof(Deallocate))]
+        // [MonoPInvokeCallback(typeof(Deallocate))]
         public static void Unpin(IntPtr ptr, IntPtr state)
         {
             try
@@ -138,7 +137,7 @@ namespace LeapInternal
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogException(e);
+                System.Diagnostics.Trace.WriteLine(e);
             }
         }
 

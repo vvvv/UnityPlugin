@@ -1354,7 +1354,7 @@ namespace LeapInternal
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                System.Diagnostics.Trace.WriteLine(e);
             }
 
             return Matrix.Identity;

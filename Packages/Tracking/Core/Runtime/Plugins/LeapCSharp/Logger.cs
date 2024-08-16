@@ -19,7 +19,7 @@ namespace LeapInternal
         /// </summary>
         public static void Log(object message)
         {
-            UnityEngine.Debug.Log(message);
+            System.Diagnostics.Trace.WriteLine(message);
         }
 
         public static void LogStruct(object thisObject, string title = "")
