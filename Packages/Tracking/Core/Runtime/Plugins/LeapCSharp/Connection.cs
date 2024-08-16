@@ -207,6 +207,7 @@ namespace LeapInternal
                 }
             }
 
+            /*
             // Produce metadata to send before connection is opened
             string metadata = MetadataUtil.GetMetaData();
             UIntPtr uIntPtr = new UIntPtr((uint)metadata.Length);
@@ -215,6 +216,7 @@ namespace LeapInternal
             {
                 LeapC.SetConnectionMetadata(_leapConnection, metadata, uIntPtr);
             }
+            */ 
 
             result = LeapC.OpenConnection(_leapConnection);
 
