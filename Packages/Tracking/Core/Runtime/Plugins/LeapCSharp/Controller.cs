@@ -12,7 +12,7 @@ namespace Leap
     using System;
     using System.Linq;
     using System.Threading;
-    using UnityEngine;
+    using Stride.Core.Mathematics;
 
     /// <summary>
     /// The Controller class is your main interface to the Leap Motion Controller.
@@ -863,22 +863,22 @@ namespace Leap
             _connection.GetInterpolatedFrameFromTime(toFill, time, sourceTime, device);
         }
 
-        public UnityEngine.Matrix4x4 LeapExtrinsicCameraMatrix(Image.CameraType camera, Device device)
+        public Matrix LeapExtrinsicCameraMatrix(Image.CameraType camera, Device device)
         {
             return _connection.LeapExtrinsicCameraMatrix(camera, device);
         }
 
-        public UnityEngine.Vector3 RectilinearToPixel(Image.CameraType camera, UnityEngine.Vector3 ray)
+        public Vector3 RectilinearToPixel(Image.CameraType camera, Vector3 ray)
         {
             return _connection.RectilinearToPixel(camera, ray);
         }
 
-        public UnityEngine.Vector3 RectilinearToPixelEx(Image.CameraType camera, UnityEngine.Vector3 ray, Device device)
+        public Vector3 RectilinearToPixelEx(Image.CameraType camera, Vector3 ray, Device device)
         {
             return _connection.RectilinearToPixelEx(device.Handle, camera, ray);
         }
 
-        public UnityEngine.Vector3 PixelToRectilinearEx(Image.CameraType camera, UnityEngine.Vector3 pixel, Device device)
+        public Vector3 PixelToRectilinearEx(Image.CameraType camera, Vector3 pixel, Device device)
         {
             return _connection.PixelToRectilinearEx(device.Handle, camera, pixel);
         }

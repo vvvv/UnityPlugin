@@ -6,7 +6,7 @@
  * between Ultraleap and you, your company or other organization.             *
  ******************************************************************************/
 
-using UnityEngine;
+using Stride.Core.Mathematics;
 
 namespace Leap
 {
@@ -241,12 +241,12 @@ namespace Leap
         public uint DeviceID { get; private set; }
 
         private bool poseSet = false;
-        private Pose devicePose = Pose.identity;
+        private Matrix devicePose = Matrix.Identity;
 
         /// <summary>
         /// The transform to world coordinates from 3D Leap coordinates.
         /// </summary>
-        public Pose DevicePose
+        public Matrix DevicePose
         {
             get
             {
@@ -259,15 +259,15 @@ namespace Leap
             }
         }
 
-        internal Pose FindDeviceTransform()
+        internal Matrix FindDeviceTransform()
         {
             // Check the service has valid support for device transforms
             LEAP_VERSION minimumServiceVersion = new LEAP_VERSION { major = 5, minor = 19, patch = 0 };
             if (!ServerStatus.IsServiceVersionValid(minimumServiceVersion))
             {
-                devicePose = Pose.identity;
+                devicePose = Matrix.Identity;
                 poseSet = true;
-                return Pose.identity;
+                return Matrix.Identity;
             }
 
             // Check the device transform is available before asking for one
@@ -275,8 +275,8 @@ namespace Leap
 
             if (!deviceTransformAvailable)
             {
-                devicePose = Pose.identity;
-                return Pose.identity;
+                devicePose = Matrix.Identity;
+                return Matrix.Identity;
             }
 
             // Get the device transform data and check it is valid as data
@@ -285,10 +285,11 @@ namespace Leap
 
             if (result != eLeapRS.eLeapRS_Success || data == null)
             {
-                devicePose = Pose.identity;
-                return Pose.identity;
+                devicePose = Matrix.Identity;
+                return Matrix.Identity;
             }
 
+            /*
             // Using the LEAP->OPENXR device transform matrix
             // Unitys matrices are generated as 4 columns:
             Matrix4x4 deviceTransform = new Matrix4x4(
@@ -322,9 +323,16 @@ namespace Leap
             Quaternion outputRot = deviceTransform.rotation;
 
             devicePose = new Pose(outputPos, outputRot);
+            */
 
+            Matrix deviceTransform = new Matrix(
+                                                data[0], data[1], data[2], data[3],
+                                                data[4], data[5], data[6], data[7],
+                                                data[8], data[9], data[10], data[11],
+                                                data[12], data[13], data[14], data[15]
+                                               );
             poseSet = true;
-            return devicePose;
+            return deviceTransform;
         }
 
         /// <summary>

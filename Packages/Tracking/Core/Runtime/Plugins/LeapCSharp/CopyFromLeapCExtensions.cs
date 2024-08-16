@@ -9,7 +9,7 @@
 namespace LeapInternal
 {
     using Leap;
-    using UnityEngine;
+    using Stride.Core.Mathematics;
     public static class CopyFromLeapCExtensions
     {
         public static readonly float MM_TO_M = 1e-3f;
@@ -17,20 +17,20 @@ namespace LeapInternal
         /**
          * Provides a static LeapTransform that converts from Leap units and coordinates to Unity
          */
-        public static LeapTransform LeapToUnityTransform
+        public static LeapTransform LeapToVVVVTransform
         {
             get
             {
-                LeapTransform leapToUnityTransform = new LeapTransform(Vector3.zero, Quaternion.identity, new Vector3(MM_TO_M, MM_TO_M, MM_TO_M));
-                leapToUnityTransform.MirrorZ();
+                LeapTransform leapToVVVVTransform = new LeapTransform(Vector3.Zero, Quaternion.Identity, new Vector3(MM_TO_M, MM_TO_M, MM_TO_M));
+           
 
-                return leapToUnityTransform;
+                return leapToVVVVTransform;
             }
         }
 
-        public static void TransformToUnityUnits(this Hand hand)
+        public static void TransformToVVVVUnits(this Hand hand)
         {
-            hand.Transform(LeapToUnityTransform);
+            hand.Transform(LeapToVVVVTransform);
         }
 
 
@@ -91,7 +91,7 @@ namespace LeapInternal
             hand.fingers[3].CopyFrom(leapHand.ring, Leap.Finger.FingerType.RING, hand.Id, hand.TimeVisible);
             hand.fingers[4].CopyFrom(leapHand.pinky, Leap.Finger.FingerType.PINKY, hand.Id, hand.TimeVisible);
 
-            hand.TransformToUnityUnits();
+            hand.TransformToVVVVUnits();
 
             return hand;
         }
@@ -143,11 +143,11 @@ namespace LeapInternal
             bone.PrevJoint = leapBone.prev_joint.ToVector3();
             bone.NextJoint = leapBone.next_joint.ToVector3();
             bone.Direction = (bone.NextJoint - bone.PrevJoint);
-            bone.Length = bone.Direction.magnitude;
+            bone.Length = bone.Direction.Length();
 
             if (bone.Length < float.Epsilon)
             {
-                bone.Direction = Vector3.zero;
+                bone.Direction = Vector3.Zero;
             }
             else
             {

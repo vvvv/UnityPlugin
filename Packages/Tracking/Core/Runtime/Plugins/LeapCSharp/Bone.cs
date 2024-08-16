@@ -5,7 +5,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0, or another agreement           *
  * between Ultraleap and you, your company or other organization.             *
  ******************************************************************************/
-using UnityEngine;
+using Stride.Core.Mathematics;
 
 namespace Leap
 {
@@ -132,7 +132,7 @@ namespace Leap
         /// </summary>
         public Quaternion Rotation;
 
-        LeapTransform _basis = new LeapTransform(Vector3.one, Quaternion.identity);
+        LeapTransform _basis = new LeapTransform(Vector3.One, Quaternion.Identity);
 
         /// <summary>
         /// The orthonormal basis vectors for this Bone as a Matrix.

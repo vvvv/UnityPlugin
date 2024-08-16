@@ -6,7 +6,7 @@
  * between Ultraleap and you, your company or other organization.             *
  ******************************************************************************/
 
-using UnityEngine;
+using Stride.Core.Mathematics;
 
 namespace Leap
 {
@@ -66,7 +66,7 @@ namespace Leap
             hand.PalmNormal = transform.TransformDirection(hand.PalmNormal);
             hand.Direction = transform.TransformDirection(hand.Direction);
             hand.WristPosition = transform.TransformPoint(hand.WristPosition);
-            hand.PalmWidth *= Math.Abs(transform.scale.x);
+            hand.PalmWidth *= Math.Abs(transform.scale.X);
             hand.Rotation = transform.TransformQuaternion(hand.Rotation);
 
             hand.Arm.Transform(transform);
@@ -128,8 +128,8 @@ namespace Leap
             nextBone.TransformGivenJoints(transform);
 
             finger.Direction = finger.bones[2].Direction;
-            finger.Width *= Math.Abs(transform.scale.x);
-            finger.Length *= Math.Abs(transform.scale.z);
+            finger.Width *= Math.Abs(transform.scale.X);
+            finger.Length *= Math.Abs(transform.scale.Z);
 
             return finger;
         }
@@ -169,19 +169,19 @@ namespace Leap
          */
         internal static void TransformGivenJoints(this Bone bone, LeapTransform transform)
         {
-            bone.Length *= Math.Abs(transform.scale.z);
+            bone.Length *= Math.Abs(transform.scale.Z);
             bone.Center = (bone.PrevJoint + bone.NextJoint) / 2.0f;
 
             if (bone.Length < float.Epsilon)
             {
-                bone.Direction = Vector3.zero;
+                bone.Direction = Vector3.Zero;
             }
             else
             {
                 bone.Direction = (bone.NextJoint - bone.PrevJoint) / bone.Length;
             }
 
-            bone.Width *= Math.Abs(transform.scale.x);
+            bone.Width *= Math.Abs(transform.scale.X);
             bone.Rotation = transform.TransformQuaternion(bone.Rotation);
         }
 

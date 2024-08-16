@@ -13,7 +13,7 @@ namespace LeapInternal
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Threading;
-    using UnityEngine;
+    using Stride.Core.Mathematics;
 
     public class Connection
     {
@@ -1185,7 +1185,7 @@ namespace LeapInternal
         /// <summary>
         /// Converts from image-space pixel coordinates to camera-space rectilinear coordinates
         /// </summary>
-        public UnityEngine.Vector3 PixelToRectilinear(Image.CameraType camera, UnityEngine.Vector3 pixel)
+        public Vector3 PixelToRectilinear(Image.CameraType camera, Vector3 pixel)
         {
             LEAP_VECTOR pixelStruct = new LEAP_VECTOR(pixel);
             LEAP_VECTOR ray = LeapC.LeapPixelToRectilinear(_leapConnection,
@@ -1193,12 +1193,12 @@ namespace LeapInternal
                    eLeapPerspectiveType.eLeapPerspectiveType_stereo_left :
                    eLeapPerspectiveType.eLeapPerspectiveType_stereo_right),
                    pixelStruct);
-            return new UnityEngine.Vector3(ray.x, ray.y, ray.z);
+            return new Vector3(ray.x, ray.y, ray.z);
         }
 
         [Obsolete("calibType is not necessary. Please use the alternative PixelToRectilinearEx method.")]
-        public UnityEngine.Vector3 PixelToRectilinearEx(IntPtr deviceHandle,
-                                           Image.CameraType camera, Image.CalibrationType calibType, UnityEngine.Vector3 pixel)
+        public Vector3 PixelToRectilinearEx(IntPtr deviceHandle,
+                                           Image.CameraType camera, Image.CalibrationType calibType, Vector3 pixel)
         {
             LEAP_VECTOR pixelStruct = new LEAP_VECTOR(pixel);
             LEAP_VECTOR ray = LeapC.LeapPixelToRectilinearEx(_leapConnection,
@@ -1210,7 +1210,7 @@ namespace LeapInternal
                    eLeapCameraCalibrationType.eLeapCameraCalibrationType_infrared :
                    eLeapCameraCalibrationType.eLeapCameraCalibrationType_visual),
                    pixelStruct);
-            return new UnityEngine.Vector3(ray.x, ray.y, ray.z);
+            return new Vector3(ray.x, ray.y, ray.z);
         }
 
         /// <summary>
@@ -1218,8 +1218,8 @@ namespace LeapInternal
         /// 
         /// Also allows specifying a specific device handle and calibration type.
         /// </summary>
-        public UnityEngine.Vector3 PixelToRectilinearEx(IntPtr deviceHandle,
-                                           Image.CameraType camera, UnityEngine.Vector3 pixel)
+        public Vector3 PixelToRectilinearEx(IntPtr deviceHandle,
+                                           Image.CameraType camera, Vector3 pixel)
         {
             LEAP_VECTOR pixelStruct = new LEAP_VECTOR(pixel);
             LEAP_VECTOR ray = LeapC.LeapPixelToRectilinearEx(_leapConnection,
@@ -1228,13 +1228,13 @@ namespace LeapInternal
                    eLeapPerspectiveType.eLeapPerspectiveType_stereo_left :
                    eLeapPerspectiveType.eLeapPerspectiveType_stereo_right),
                    pixelStruct);
-            return new UnityEngine.Vector3(ray.x, ray.y, ray.z);
+            return new Vector3(ray.x, ray.y, ray.z);
         }
 
         /// <summary>
         /// Converts from camera-space rectilinear coordinates to image-space pixel coordinates
         /// </summary>
-        public UnityEngine.Vector3 RectilinearToPixel(Image.CameraType camera, UnityEngine.Vector3 ray)
+        public Vector3 RectilinearToPixel(Image.CameraType camera, Vector3 ray)
         {
             LEAP_VECTOR rayStruct = new LEAP_VECTOR(ray);
             LEAP_VECTOR pixel = LeapC.LeapRectilinearToPixel(_leapConnection,
@@ -1242,7 +1242,7 @@ namespace LeapInternal
                    eLeapPerspectiveType.eLeapPerspectiveType_stereo_left :
                    eLeapPerspectiveType.eLeapPerspectiveType_stereo_right),
                    rayStruct);
-            return new UnityEngine.Vector3(pixel.x, pixel.y, pixel.z);
+            return new Vector3(pixel.x, pixel.y, pixel.z);
         }
 
         /// <summary>
@@ -1250,8 +1250,8 @@ namespace LeapInternal
         /// 
         /// Also allows specifying a specific device handle and calibration type.
         /// </summary>
-        public UnityEngine.Vector3 RectilinearToPixelEx(IntPtr deviceHandle,
-                                           Image.CameraType camera, UnityEngine.Vector3 ray)
+        public Vector3 RectilinearToPixelEx(IntPtr deviceHandle,
+                                           Image.CameraType camera, Vector3 ray)
         {
             LEAP_VECTOR rayStruct = new LEAP_VECTOR(ray);
             LEAP_VECTOR pixel = LeapC.LeapRectilinearToPixelEx(_leapConnection,
@@ -1260,7 +1260,7 @@ namespace LeapInternal
                    eLeapPerspectiveType.eLeapPerspectiveType_stereo_left :
                    eLeapPerspectiveType.eLeapPerspectiveType_stereo_right),
                    rayStruct);
-            return new UnityEngine.Vector3(pixel.x, pixel.y, pixel.z);
+            return new Vector3(pixel.x, pixel.y, pixel.z);
         }
 
         public void TelemetryProfiling(ref LEAP_TELEMETRY_DATA telemetryData)
@@ -1298,7 +1298,7 @@ namespace LeapInternal
 
             pm.frameId = pmi.frame_id;
             pm.timestamp = pmi.timestamp;
-            pm.points = new UnityEngine.Vector3[nPoints];
+            pm.points = new Vector3[nPoints];
             pm.ids = new UInt32[nPoints];
 
             float[] points = new float[3 * nPoints];
@@ -1309,9 +1309,9 @@ namespace LeapInternal
             int j = 0;
             for (int i = 0; i < nPoints; i++)
             {
-                pm.points[i].x = points[j++];
-                pm.points[i].y = points[j++];
-                pm.points[i].z = points[j++];
+                pm.points[i].X = points[j++];
+                pm.points[i].Y = points[j++];
+                pm.points[i].Z = points[j++];
                 pm.ids[i] = unchecked((UInt32)ids[i]);
             }
             Marshal.FreeHGlobal(buffer);
@@ -1320,7 +1320,7 @@ namespace LeapInternal
         /// <summary>
         /// Request the Extrinsic Camera Matrix
         /// </summary>
-        public Matrix4x4 LeapExtrinsicCameraMatrix(Image.CameraType camera, Device device)
+        public Stride.Core.Mathematics.Matrix LeapExtrinsicCameraMatrix(Image.CameraType camera, Device device)
         {
             float[] data = new float[16];
 
@@ -1343,11 +1343,12 @@ namespace LeapInternal
 
                 if (result != eLeapRS.eLeapRS_Success)
                 {
-                    return new Matrix4x4(new Vector4(data[0], data[1], data[2], data[3]),
-                        new Vector4(data[4], data[5], data[6], data[7]),
-                        new Vector4(data[8], data[9], data[10], data[11]),
-                        new Vector4(data[12], data[13], data[14], data[15])
-                        );
+                    return new Matrix(
+                                        data[0], data[1], data[2], data[3],
+                                        data[4], data[5], data[6], data[7],
+                                        data[8], data[9], data[10], data[11],
+                                        data[12], data[13], data[14], data[15] 
+                                     );
                 }
 
             }
@@ -1356,7 +1357,7 @@ namespace LeapInternal
                 Debug.LogException(e);
             }
 
-            return Matrix4x4.identity;
+            return Matrix.Identity;
         }
 
         /// <summary>

@@ -5,7 +5,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0, or another agreement           *
  * between Ultraleap and you, your company or other organization.             *
  ******************************************************************************/
-using UnityEngine;
+using Stride.Core.Mathematics;
 
 namespace Leap
 {

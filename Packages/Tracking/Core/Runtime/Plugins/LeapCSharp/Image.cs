@@ -173,7 +173,7 @@ namespace LeapInternal
         /// 
         /// Note, this function was formerly named Rectify().
         /// </summary>
-        public UnityEngine.Vector3 PixelToRectilinear(CameraType camera, UnityEngine.Vector3 pixel)
+        public Stride.Core.Mathematics.Vector3 PixelToRectilinear(CameraType camera, Stride.Core.Mathematics.Vector3 pixel)
         {
             return Connection.GetConnection().PixelToRectilinear(camera, pixel);
         }
@@ -202,7 +202,7 @@ namespace LeapInternal
         /// 
         /// Note, this function was formerly named Warp().
         /// </summary>
-        public UnityEngine.Vector3 RectilinearToPixel(CameraType camera, UnityEngine.Vector3 ray)
+        public Stride.Core.Mathematics.Vector3 RectilinearToPixel(CameraType camera, Stride.Core.Mathematics.Vector3 ray)
         {
             return Connection.GetConnection().RectilinearToPixelEx(
                 Connection.GetConnection().Devices.FindDeviceByID(deviceId).Handle,

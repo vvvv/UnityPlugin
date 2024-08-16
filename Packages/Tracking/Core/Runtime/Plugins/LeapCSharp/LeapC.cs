@@ -819,16 +819,16 @@ namespace LeapInternal
         public float y;
         public float z;
 
-        public UnityEngine.Vector3 ToVector3()
+        public Stride.Core.Mathematics.Vector3 ToVector3()
         {
-            return new UnityEngine.Vector3(x, y, z);
+            return new Stride.Core.Mathematics.Vector3(x, y, z);
         }
 
-        public LEAP_VECTOR(UnityEngine.Vector3 vector)
+        public LEAP_VECTOR(Stride.Core.Mathematics.Vector3 vector)
         {
-            x = vector.x;
-            y = vector.y;
-            z = vector.z;
+            x = vector.X;
+            y = vector.Y;
+            z = vector.Z;
         }
     }
 
@@ -840,17 +840,17 @@ namespace LeapInternal
         public float z;
         public float w;
 
-        public UnityEngine.Quaternion ToQuaternion()
+        public Stride.Core.Mathematics.Quaternion ToQuaternion()
         {
-            return new UnityEngine.Quaternion(x, y, z, w);
+            return new Stride.Core.Mathematics.Quaternion(x, y, z, w);
         }
 
-        public LEAP_QUATERNION(UnityEngine.Quaternion q)
+        public LEAP_QUATERNION(Stride.Core.Mathematics.Quaternion q)
         {
-            x = q.x;
-            y = q.y;
-            z = q.z;
-            w = q.w;
+            x = q.X;
+            y = q.Y;
+            z = q.Z;
+            w = q.W;
         }
     }
 

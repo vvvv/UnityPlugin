@@ -6,7 +6,7 @@
  * between Ultraleap and you, your company or other organization.             *
  ******************************************************************************/
 
-using UnityEngine;
+using Stride.Core.Mathematics;
 
 namespace Leap
 {

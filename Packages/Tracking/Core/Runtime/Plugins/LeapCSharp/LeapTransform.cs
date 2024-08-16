@@ -5,7 +5,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0, or another agreement           *
  * between Ultraleap and you, your company or other organization.             *
  ******************************************************************************/
-using UnityEngine;
+using Stride.Core.Mathematics;
 
 namespace Leap
 {
@@ -22,7 +22,7 @@ namespace Leap
         /// Constructs a new transform from the specified translation and rotation.
         /// </summary>
         public LeapTransform(Vector3 translation, Quaternion rotation) :
-          this(translation, rotation, Vector3.one)
+          this(translation, rotation, Vector3.One)
         {
         }
 
@@ -42,19 +42,19 @@ namespace Leap
         /// Constructs a new Leap transform from a Unity Transform
         /// </summary>
         /// <param name="t">Unity Transform</param>
-        public LeapTransform(Transform t) : this()
-        {
-            this.scale = t.lossyScale;
-            this.translation = t.position;
-            this.rotation = t.rotation;
-        }
+        //public LeapTransform(Transform t) : this()
+        //{
+        //    this.scale = t.lossyScale;
+        //    this.translation = t.position;
+        //    this.rotation = t.rotation;
+        //}
 
         /// <summary>
         /// Transforms the specified position vector, applying translation, rotation and scale.
         /// </summary>
         public Vector3 TransformPoint(Vector3 point)
         {
-            return _xBasisScaled * point.x + _yBasisScaled * point.y + _zBasisScaled * point.z + translation;
+            return _xBasisScaled * point.X + _yBasisScaled * point.Y + _zBasisScaled * point.Z + translation;
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Leap
         /// </summary>
         public Vector3 TransformDirection(Vector3 direction)
         {
-            return _xBasis * direction.x + _yBasis * direction.y + _zBasis * direction.z;
+            return _xBasis * direction.X + _yBasis * direction.Y + _zBasis * direction.Z;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Leap
         /// </summary>
         public Vector3 TransformVelocity(Vector3 velocity)
         {
-            return _xBasisScaled * velocity.x + _yBasisScaled * velocity.y + _zBasisScaled * velocity.z;
+            return _xBasisScaled * velocity.X + _yBasisScaled * velocity.Y + _zBasisScaled * velocity.Z;
         }
 
         /// <summary>
@@ -90,9 +90,9 @@ namespace Leap
             if (_flip)
             {
                 // Mirror the axis of rotation across the flip axis.
-                rhs.x *= _flipAxes.x;
-                rhs.y *= _flipAxes.y;
-                rhs.z *= _flipAxes.z;
+                rhs.X *= _flipAxes.X;
+                rhs.Y *= _flipAxes.Y;
+                rhs.Z *= _flipAxes.Z;
             }
 
             Quaternion t = _quaternion * rhs;
@@ -109,8 +109,8 @@ namespace Leap
             _xBasisScaled = -_xBasisScaled;
 
             _flip = true;
-            _flipAxes.y = -_flipAxes.y;
-            _flipAxes.z = -_flipAxes.z;
+            _flipAxes.Y = -_flipAxes.Y;
+            _flipAxes.Z = -_flipAxes.Z;
         }
 
         /// <summary>
@@ -123,8 +123,8 @@ namespace Leap
             _zBasisScaled = -_zBasisScaled;
 
             _flip = true;
-            _flipAxes.x = -_flipAxes.x;
-            _flipAxes.y = -_flipAxes.y;
+            _flipAxes.X = -_flipAxes.X;
+            _flipAxes.Y = -_flipAxes.Y;
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Leap
             set
             {
                 _xBasis = value;
-                _xBasisScaled = value * scale.x;
+                _xBasisScaled = value * scale.X;
                 _quaternionDirty = true;
             }
         }
@@ -162,7 +162,7 @@ namespace Leap
             set
             {
                 _yBasis = value;
-                _yBasisScaled = value * scale.y;
+                _yBasisScaled = value * scale.Y;
                 _quaternionDirty = true;
             }
         }
@@ -182,7 +182,7 @@ namespace Leap
             set
             {
                 _zBasis = value;
-                _zBasisScaled = value * scale.z;
+                _zBasisScaled = value * scale.Z;
                 _quaternionDirty = true;
             }
         }
@@ -211,9 +211,9 @@ namespace Leap
             set
             {
                 _scale = value;
-                _xBasisScaled = _xBasis * scale.x;
-                _yBasisScaled = _yBasis * scale.y;
-                _zBasisScaled = _zBasis * scale.z;
+                _xBasisScaled = _xBasis * scale.X;
+                _yBasisScaled = _yBasis * scale.Y;
+                _zBasisScaled = _zBasis * scale.Z;
             }
         }
 
@@ -238,20 +238,20 @@ namespace Leap
             {
                 _quaternion = value;
 
-                float d = value.x * value.x + value.y * value.y + value.z * value.z + value.w * value.w;
+                float d = value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W;
                 float s = 2.0f / d;
-                float xs = value.x * s, ys = value.y * s, zs = value.z * s;
-                float wx = value.w * xs, wy = value.w * ys, wz = value.w * zs;
-                float xx = value.x * xs, xy = value.x * ys, xz = value.x * zs;
-                float yy = value.y * ys, yz = value.y * zs, zz = value.z * zs;
+                float xs = value.X * s, ys = value.Y * s, zs = value.Z * s;
+                float wx = value.W * xs, wy = value.W * ys, wz = value.W * zs;
+                float xx = value.X * xs, xy = value.X * ys, xz = value.X * zs;
+                float yy = value.Y * ys, yz = value.Y * zs, zz = value.Z * zs;
 
                 _xBasis = new Vector3(1.0f - (yy + zz), xy + wz, xz - wy);
                 _yBasis = new Vector3(xy - wz, 1.0f - (xx + zz), yz + wx);
                 _zBasis = new Vector3(xz + wy, yz - wx, 1.0f - (xx + yy));
 
-                _xBasisScaled = _xBasis * scale.x;
-                _yBasisScaled = _yBasis * scale.y;
-                _zBasisScaled = _zBasis * scale.z;
+                _xBasisScaled = _xBasis * scale.X;
+                _yBasisScaled = _yBasis * scale.Y;
+                _zBasisScaled = _zBasis * scale.Z;
 
                 _quaternionDirty = false;
                 _flip = false;
@@ -263,7 +263,7 @@ namespace Leap
         /// The identity transform.
         /// @since 3.1.2
         /// </summary>
-        public static readonly LeapTransform Identity = new LeapTransform(Vector3.zero, Quaternion.identity, Vector3.one);
+        public static readonly LeapTransform Identity = new LeapTransform(Vector3.Zero, Quaternion.Identity, Vector3.One);
 
         private Vector3 _translation;
         private Vector3 _scale;

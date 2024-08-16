@@ -12,7 +12,7 @@ namespace Leap
     {
         public long frameId;
         public long timestamp;
-        public UnityEngine.Vector3[] points;
+        public Stride.Core.Mathematics.Vector3[] points;
         public uint[] ids;
     }
 }
