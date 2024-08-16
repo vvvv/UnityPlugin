@@ -9,8 +9,8 @@
 namespace LeapInternal
 {
     using System;
+    using System.Diagnostics;
     using System.Runtime.InteropServices;
-    using UnityEngine;
 
     public static class ServerStatus
     {
@@ -20,9 +20,20 @@ namespace LeapInternal
         static LeapC.LEAP_SERVER_STATUS lastStatus;
         static LeapC.LEAP_SERVER_STATUS_DEVICE[] lastDevices;
 
+        static DateTime _startTime = Process.GetCurrentProcess().StartTime.ToUniversalTime();
+
+        /// Replacement for Unity Time.realtimeSinceStartup
+        /// https://docs.unity3d.com/ScriptReference/Time-realtimeSinceStartup.html
+        private static double realtimeSinceStartup()
+        {
+            TimeSpan diff = DateTime.UtcNow - _startTime;
+
+            return diff.TotalSeconds;
+        }
+
         public static void GetStatus()
         {
-            if (lastRequestTimestamp + requestInterval < Time.realtimeSinceStartup)
+            if (lastRequestTimestamp + requestInterval < realtimeSinceStartup())
             {
                 IntPtr statusPtr = new IntPtr();
                 LeapC.GetServerStatus(500, ref statusPtr);
@@ -35,7 +46,7 @@ namespace LeapInternal
                     LeapC.ReleaseServerStatus(ref lastStatus);
                 }
 
-                lastRequestTimestamp = Time.realtimeSinceStartup;
+                lastRequestTimestamp = realtimeSinceStartup();
             }
         }
 
