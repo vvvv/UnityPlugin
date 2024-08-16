@@ -471,7 +471,7 @@ namespace Leap
 
             _serverNamespace = serverNamespace;
 
-            StartConnection();
+            StartConnection(supportsMultipleDevices);
         }
 
 
@@ -483,9 +483,10 @@ namespace Leap
         /// 
         /// @since 3.0
         /// </summary>
-        public void StartConnection()
+        
+        public void StartConnection(bool supportsMultipleDevices = false)
         {
-            _connection.Start(_serverNamespace);
+            _connection.Start(_serverNamespace, supportsMultipleDevices);
         }
 
         /// <summary>
