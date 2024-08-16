@@ -178,7 +178,10 @@ namespace LeapInternal
         {
             LEAP_CONNECTION_CONFIG config = new LEAP_CONNECTION_CONFIG();
             config.server_namespace = Marshal.StringToHGlobalAnsi(serverNamespace);
-            config.flags = (uint)eLeapConnectionFlag.eLeapConnectionFlag_MultipleDevicesAware;
+
+            if (multiDeviceAware)
+                config.flags = (uint)eLeapConnectionFlag.eLeapConnectionFlag_MultipleDevicesAware;
+            
             config.size = (uint)Marshal.SizeOf(config);
             Start(config);
         }
