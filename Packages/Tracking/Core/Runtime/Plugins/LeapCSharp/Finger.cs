@@ -87,6 +87,13 @@ namespace Leap
             TimeVisible = timeVisible;
         }
 
+
+        /// <summary>
+        /// The bone at a given bone index on this finger.
+        /// @since 2.0
+        /// </summary>
+        public Bone Bone(Bone.BoneType boneIx) => this.bones[(int)boneIx];
+
         /// <summary>
         /// A string containing a brief, human readable description of the Finger object.
         /// @since 1.0
